@@ -18,6 +18,7 @@ return new class extends Migration {
         Schema::table('roles', function(Blueprint $table){
             $admin   = Role::create(['name' => 'Administrador']);
             $student = Role::create(['name' => 'Aluno']);
+            $teacher = Role::create(['name' => 'Professor']);
 
             $admin->permissions()->attach(Permission::all());
 
@@ -30,6 +31,15 @@ return new class extends Migration {
                 Permission::where('name', 'Editar Aluno')->first()->id,
             ]);
 
+            $teacher->permissions()->attach([
+                Permission::where('name', 'Listar Matrículas')->first()->id,
+                Permission::where('name', 'Visualizar Matrícula')->first()->id,
+                Permission::where('name', 'Listar Cursos')->first()->id,
+                Permission::where('name', 'Visualizar Curso')->first()->id,
+                Permission::where('name', 'Visualizar Professor')->first()->id,
+                Permission::where('name', 'Editar Professor')->first()->id,
+            ]);
+
         });
     }
 
@@ -40,10 +50,11 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('roles', function(Blueprint $table) {
+        Schema::table('roles', function(Blueprint $table){
 
             $admin = Role::where('name', 'Administrador')->first();
             $admin->permissions()->detach(Permission::all());
+            $admin->delete();
 
             $student = Role::where('name', 'Aluno')->first();
             $student->permissions()->detach([
@@ -54,9 +65,18 @@ return new class extends Migration {
                 Permission::where('name', 'Visualizar Aluno')->first()->id,
                 Permission::where('name', 'Editar Aluno')->first()->id,
             ]);
-
-            Role::where('name', 'Administrador')->forceDelete();
             Role::where('name', 'Aluno')->forceDelete();
+
+            $teacher = Role::where('name', 'Professor')->first();
+            $teacher->permissions()->detach([
+                Permission::where('name', 'Listar Matrículas')->first()->id,
+                Permission::where('name', 'Visualizar Matrícula')->first()->id,
+                Permission::where('name', 'Listar Cursos')->first()->id,
+                Permission::where('name', 'Visualizar Curso')->first()->id,
+                Permission::where('name', 'Visualizar Professor')->first()->id,
+                Permission::where('name', 'Editar Professor')->first()->id,
+            ]);
+
         });
     }
 };
