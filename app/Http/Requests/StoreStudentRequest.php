@@ -27,7 +27,8 @@ class StoreStudentRequest extends FormRequest {
             'name'       => 'required|string|max:255',
             'email'      => 'required|email',
             'phone'      => 'string|max:255',
-            'birth_date' => 'required|date'
+            'birth_date' => 'required|date',
+            'password'   => 'required|string|min:8',
         ];
     }
 
@@ -47,7 +48,10 @@ class StoreStudentRequest extends FormRequest {
             'phone.string'        => 'A phone must be a string',
             'phone.max'           => 'A phone must be less than 255 characters',
             'birth_date.required' => 'A birth date is required',
-            'birth_date.date'     => 'A birth date must be a valid date'
+            'birth_date.date'     => 'A birth date must be a valid date',
+            'password.required'   => 'A password is required',
+            'password.string'     => 'A password must be a string',
+            'password.min'        => 'A password must be at least 8 characters',
         ];
     }
 }

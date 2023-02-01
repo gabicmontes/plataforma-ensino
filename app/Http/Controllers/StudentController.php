@@ -21,6 +21,7 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
             $student = Student::create($request->all());
+            $student->user()->create($request->all());
             DB::commit();
             return response()->json(new StudentResource($student), 201);
         } catch (Exception $e) {
@@ -39,6 +40,7 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
             $student->update($request->all());
+            $student->user()->update($request->all());
             DB::commit();
             return response()->json(new StudentResource($student), 200);
         } catch (Exception $e) {

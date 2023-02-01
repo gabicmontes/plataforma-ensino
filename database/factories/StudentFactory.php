@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
  */
-class StudentFactory extends Factory
-{
+class StudentFactory extends Factory {
+
     /**
      * Define the model's default state.
      *
@@ -16,11 +17,12 @@ class StudentFactory extends Factory
      */
     public function definition()
     {
+        $user = User::factory()->create();
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'phone' => $this->faker->phoneNumber,
-            'birth_date' => $this->faker->date()
+            'name'       => $this->faker->name,
+            'phone'      => $this->faker->phoneNumber,
+            'birth_date' => $this->faker->date(),
+            'user_id'    => $user->id
         ];
     }
 }
