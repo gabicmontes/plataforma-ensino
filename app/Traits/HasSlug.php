@@ -3,14 +3,16 @@
 namespace App\Traits;
 
 use App\Services\TranslateService;
+use Illuminate\Support\Facades\Log;
 
 trait HasSlug {
 
     protected static function bootHasSlug()
     {
         static::creating(function ($model) {
-            $text = TranslateService::translate($model->description, 'pt_Br', 'en');
-            $model->slug = str_replace(' ', '-', strtolower($text));
+            $text = $model->name ?? $model->title ?? $model->description;
+            $translated = TranslateService::translate($text, 'pt_Br', 'en');
+            $model->slug = str_replace(' ', '-', strtolower($translated));
         });
     }
 
