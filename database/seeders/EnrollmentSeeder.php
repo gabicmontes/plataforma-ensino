@@ -8,8 +8,8 @@ use App\Models\Student;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class EnrollmentSeeder extends Seeder
-{
+class EnrollmentSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
@@ -17,6 +17,16 @@ class EnrollmentSeeder extends Seeder
      */
     public function run()
     {
-        Enrollment::factory()->count(10)->create();
+        $students = Student::all();
+
+        foreach ($students as $student) {
+            $courses = Course::all()->random(3);
+            foreach ($courses as $course) {
+                Enrollment::create([
+                    'student_id' => $student->id,
+                    'course_id'  => $course->id
+                ]);
+            }
+        }
     }
 }
