@@ -12,7 +12,6 @@ class Student extends Model
 
     protected $fillable = [
         'name',
-        'email',
         'phone',
         'birth_date'
     ];
@@ -25,5 +24,10 @@ class Student extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'enrollments');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
